@@ -442,13 +442,7 @@ html.tk .marq{display:none}
 .tk-simw #wbody{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
 .tk-simw #wbody>h3:first-child{margin-top:14px}
 .tk-simw .navb{position:sticky;bottom:0;margin-top:auto;padding-top:14px;background:linear-gradient(#fff0,#fff 30%)}
-.tk-simw .opts:not(.g2):not(.g4):not(.stack){display:grid;grid-auto-flow:column;grid-auto-columns:82%;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px 2px 6px;margin-left:-2px;margin-right:-2px}
-.tk-simw .opts:not(.g2):not(.g4):not(.stack)::-webkit-scrollbar{display:none}
-.tk-simw .opts:not(.g2):not(.g4):not(.stack)>.opt{scroll-snap-align:start;flex-direction:column;align-items:flex-start;min-height:0}
-.tk-simw .opts:not(.g2):not(.g4):not(.stack)>.opt img{width:100%;height:clamp(110px,22vh,190px)}
-@media(min-width:700px){.tk-simw .opts:not(.g2):not(.g4):not(.stack){grid-auto-columns:calc((100% - 20px)/3)}}
-.tk-simw .opts:not(.g2):not(.g4):not(.stack)::after{content:"";width:1px}
-.tk-ba .possba{margin-top:0}
+@media(min-width:700px){.tk-ba .possba{margin-top:0}
 
 .stl{margin-top:18px;font-size:13px;font-weight:600;color:var(--blue);letter-spacing:.02em}
 .stl+.tags{margin-top:8px}
@@ -536,3 +530,8 @@ html.tk body::before{content:"";position:fixed;left:0;right:0;top:0;height:10px;
 .okbox>p{margin-top:8px;color:var(--mut);font-size:15px;line-height:1.5}
 .okbtns{display:grid;gap:8px;margin-top:4px}.okbtns .btn{width:100%;justify-content:center}
 .cf-st.ok{background:#1f9d55;color:#fff;border-radius:14px;padding:10px 14px}
+
+/* étape produit : 3 choix l'un sous l'autre, photo à côté */
+.tk-simw .opts:not(.g2):not(.g4){display:grid;grid-template-columns:1fr;gap:8px}
+.tk-simw .opts:not(.g2):not(.g4)>.opt{display:flex;flex-direction:row;align-items:center;gap:14px;padding:10px 12px}
+.tk-simw .opts:not(.g2):not(.g4)>.opt img{width:78px;height:78px;flex:none;border-radius:12px;object-fit:cover}
