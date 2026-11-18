@@ -1,7 +1,13 @@
 # BEGIN VIP Lift
+# Adresse unique du site : vip-lift.com (sans www), comme WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.vip-lift\.com$ [NC]
+RewriteRule ^(.*)$ https://vip-lift.com/$1 [R=301,L]
+</IfModule>
 # La nouvelle page devient l'accueil ; WordPress continue de servir les autres pages
 DirectoryIndex index.html index.php
 # Les 2 anciens articles renvoient vers les nouveaux
-Redirect 301 /home-lift-electrique-ou-hydraulique-quelles-differences-pour-une-villa/ https://www.vip-lift.com/home-lift-hydraulique-pied-de-gaine.html
-Redirect 301 /installer-un-home-lift-dans-une-maison-deja-construite-contraintes-et-solutions/ https://www.vip-lift.com/adapter-maison-30-ans-home-lift.html
+Redirect 301 /home-lift-electrique-ou-hydraulique-quelles-differences-pour-une-villa/ https://vip-lift.com/home-lift-hydraulique-pied-de-gaine.html
+Redirect 301 /installer-un-home-lift-dans-une-maison-deja-construite-contraintes-et-solutions/ https://vip-lift.com/adapter-maison-30-ans-home-lift.html
 # END VIP Lift
