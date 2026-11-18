@@ -17,7 +17,16 @@ jobs:
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; set net:max-retries 2; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mkdir -p -f www/nouveau; mirror -R --verbose --no-perms nouveau www/nouveau"
+          [ -n "$FTP_SERVER" ] || echo "::error title=Secret manquant::FTP_SERVER est vide"
+          [ -n "$FTP_USER" ] || echo "::error title=Secret manquant::FTP_USER est vide"
+          [ -n "$FTP_PASSWORD" ] || echo "::error title=Secret manquant::FTP_PASSWORD est vide"
+          set +e
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; set net:max-retries 2; set net:timeout 20; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cls -1 | head -20; mkdir -p -f www/nouveau; mirror -R --verbose --no-perms nouveau www/nouveau" > lftp.log 2>&1
+          code=$?
+          cat lftp.log
+          echo "::notice title=Dossiers FTP::$(head -12 lftp.log | tr '\n' ' ')"
+          if [ $code -ne 0 ]; then echo "::error title=Envoi FTP::$(tail -6 lftp.log | tr '\n' ' ')"; exit 1; fi
+          echo "::notice title=Envoi FTP::$(grep -c 'Transferring file' lftp.log) fichiers envoyés"
       - name: Écrire la configuration SMTP hors du dossier www
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
@@ -34,4 +43,5 @@ jobs:
       - name: Vérifier la page
         run: |
           sleep 5
-          curl -s https://www.vip-lift.com/nouveau/ | grep -q "Votre maison peut prendre de la hauteur" && echo "OK : https://www.vip-lift.com/nouveau/ répond" || (echo "La page ne répond pas encore" && exit 1)
+          code=$(curl -s -o page.html -w "%{http_code}" https://www.vip-lift.com/nouveau/)
+          if grep -q "Votre maison peut prendre de la hauteur" page.html; then echo "::notice title=Vérification::https://www.vip-lift.com/nouveau/ est en ligne (HTTP $code)"; else echo "::error title=Vérification::HTTP $code - $(head -c 300 page.html | tr '\n' ' ')"; exit 1; fi
