@@ -67,4 +67,4 @@ jobs:
       - name: Vérifier la page d'accueil
         run: |
           sleep 5
-          curl -s https://www.vip-lift.com/ | grep -q "Votre maison peut prendre de la hauteur" && echo "OK : la nouvelle page est en ligne" || (echo "ATTENTION : la page d'accueil ne montre pas encore la nouvelle version (cache ?)" && exit 1)
+          curl -sL https://www.vip-lift.com/ | grep -q "Votre maison peut prendre de la hauteur" && echo "OK : la nouvelle page est en ligne" || (echo "ATTENTION : la page d'accueil ne montre pas encore la nouvelle version (cache ?)" && exit 1)

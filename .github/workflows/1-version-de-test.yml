@@ -43,5 +43,5 @@ jobs:
       - name: Vérifier la page
         run: |
           sleep 5
-          code=$(curl -s -o page.html -w "%{http_code}" https://www.vip-lift.com/nouveau/)
+          code=$(curl -sL -o page.html -w "%{http_code} %{url_effective}" https://www.vip-lift.com/nouveau/)
           if grep -q "Votre maison peut prendre de la hauteur" page.html; then echo "::notice title=Vérification::https://www.vip-lift.com/nouveau/ est en ligne (HTTP $code)"; else echo "::error title=Vérification::HTTP $code - $(head -c 300 page.html | tr '\n' ' ')"; exit 1; fi
