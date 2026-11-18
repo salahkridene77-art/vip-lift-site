@@ -8,10 +8,10 @@ def est(w,prod,niv):
     except urllib.error.HTTPError as e: return e.code,e.read()[:120]
     except Exception as e: return 0,str(e)[:80]
 for w in W:
-    c,j=est(w,"HOME_LIFT_HYDRAULIQUE","3")
+    c,j=est(w,"HOME_LIFT_HYDRAULIQUE",3)
     if c==200 and isinstance(j,dict) and j.get("success"): ok+=1
     else: bad.append(f"{w}:{c}:{str(j)[:60]}")
 for prod in ["HOME_LIFT_HYDRAULIQUE","HOME_LIFT_AVEC_CHARPENTE","ASCENSEUR_STANDARD"]:
-    for niv in ["2","3",3,"5"]:
+    for niv in [2,3,5]:
         c,j=est("Batna",prod,niv); bad.append(f"Batna {prod} {niv!r}:{c}:{str(j)[:70]}")
 print("OK",ok,"| "+" | ".join(bad))
