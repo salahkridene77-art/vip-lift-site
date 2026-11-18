@@ -3,7 +3,7 @@
 const ONSITE=/(^|\.)vip-lift\.com$/.test(location.hostname);
 const EP=n=>ONSITE?'devis-api.php?r='+n:'https://demande.vip-lift.com/api/'+n;
 const SEND_CONFIG=false; // passer à true quand /api/submit-lead accepte le champ "configuration"
-const WA='213561329993';
+const WA='213541850090';
 
 /* ---------- Solutions (accordéon) ---------- */
 {const rows=[...document.querySelectorAll('#svc .row')],DW=2400,still=matchMedia('(prefers-reduced-motion: reduce)').matches;let k=0,t=null,vis=false,pause=0;
@@ -379,3 +379,9 @@ show();}}
     }catch(_){msg("Le message n'a pas pu partir. Appelez-nous ou écrivez-nous sur WhatsApp.",false)}
     btn.disabled=false;cap()});
 }}
+
+/* ---------- « Demande de devis » mène directement aux questions du simulateur ---------- */
+document.addEventListener('click',e=>{const a=e.target.closest('a[href="#simulateur"],a[data-go="simulateur"]');if(!a||!document.documentElement.classList.contains('tk'))return;
+  const w=document.querySelector('.tk-simw');if(!w)return;e.preventDefault();
+  const hd=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hd'))||0;
+  setTimeout(()=>window.scrollTo({top:w.getBoundingClientRect().top+scrollY-hd,behavior:'instant'}),a.closest('.msheet')?360:0)},true);
