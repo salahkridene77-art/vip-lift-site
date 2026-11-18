@@ -7,7 +7,6 @@ jobs:
   liste:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
       - name: Lister les dossiers de l'hébergement
         env:
@@ -24,4 +23,4 @@ jobs:
           echo "::notice title=budget (relais devis-api)::$(curl -s -X POST -H 'Origin: https://www.vip-lift.com' -H 'Content-Type: application/json' 'https://www.vip-lift.com/nouveau/devis-api.php?r=estimate' -d '{"levels":3,"emplacement":"INTERIEUR","produit":"HOME_LIFT_AVEC_CHARPENTE","wilaya":"Alger"}' | head -c 300)"
           echo "::notice title=captcha contact::$(curl -s -H 'Origin: https://www.vip-lift.com' 'https://www.vip-lift.com/nouveau/contact-api.php?captcha=1' | head -c 200)"
           echo "::notice title=config SMTP::$(lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cls -l vip-lift-config.php" 2>&1 | head -2 | tr '\n' ' ')"
-          echo "::notice title=Budgets::$(python3 outils/budgets.py | head -c 3000)"
+          for u in / /devenir-partenaire/ /mentions-legales/ /blog/ /nos-services/ /guide-home-lift-conception-villa.html /adapter-maison-30-ans-home-lift.html /sitemap-vip-lift.xml /installer-un-home-lift-dans-une-maison-deja-construite-contraintes-et-solutions/; do echo "::notice title=Page $u::$(curl -s -o p.html -w '%{http_code} %{redirect_url}' https://www.vip-lift.com$u) $(grep -o '<title>[^<]*' p.html | head -1)"; done

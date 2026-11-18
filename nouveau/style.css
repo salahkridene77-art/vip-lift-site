@@ -442,7 +442,7 @@ html.tk .marq{display:none}
 .tk-simw #wbody{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
 .tk-simw #wbody>h3:first-child{margin-top:14px}
 .tk-simw .navb{position:sticky;bottom:0;margin-top:auto;padding-top:14px;background:linear-gradient(#fff0,#fff 30%)}
-@media(min-width:700px){.tk-ba .possba{margin-top:0}
+@media(min-width:700px){.tk-ba .possba{margin-top:0}}
 
 .stl{margin-top:18px;font-size:13px;font-weight:600;color:var(--blue);letter-spacing:.02em}
 .stl+.tags{margin-top:8px}
@@ -535,3 +535,6 @@ html.tk body::before{content:"";position:fixed;left:0;right:0;top:0;height:10px;
 .tk-simw .opts:not(.g2):not(.g4){display:grid;grid-template-columns:1fr;gap:8px}
 .tk-simw .opts:not(.g2):not(.g4)>.opt{display:flex;flex-direction:row;align-items:center;gap:14px;padding:10px 12px}
 .tk-simw .opts:not(.g2):not(.g4)>.opt img{width:78px;height:78px;flex:none;border-radius:12px;object-fit:cover}
+
+html.tk.typing{scroll-snap-type:none!important}
+html.tk.typing .tk-b{scroll-snap-stop:normal}

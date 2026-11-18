@@ -142,7 +142,7 @@ function bind(){
 }
 function lockWiz(){const w=document.querySelector('.wiz'),n=document.querySelector('.nav');if(!w)return;if(document.documentElement.classList.contains('tk')){const b=w.closest('.tk-b'),hd=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hd'))||0,wb=document.getElementById('wbody');if(wb)wb.scrollTop=0;if(b)window.scrollTo({top:b.getBoundingClientRect().top+scrollY-hd,behavior:'instant'});return}const off=(n?n.getBoundingClientRect().bottom:0)+10;window.scrollTo({top:w.getBoundingClientRect().top+scrollY-off,behavior:'instant'})}
 new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle('insim',e.isIntersecting)),{rootMargin:'-20% 0px -20% 0px'}).observe(document.querySelector('.wiz'));
-async function estimate(){if(S.pc!=='DZ'){S.est=null;S.estState='idle';return}S.estState='load';S.est=null;try{const r=await fetch(EP('estimate'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({levels:S.niv,emplacement:S.emp,produit:S.produit,wilaya:S.wil})});const j=await r.json();S.est=r.ok&&j.success?{budgetEstime:j.budgetEstime,deliveryFee:j.deliveryFee,visitePrice:j.visitePrice}:null}catch(e){S.est=null}S.estState='idle';if(ST[step]==='budget'||ST[step]==='confirm')render()}
+async function estimate(){if(S.pc!=='DZ'){S.est=null;S.estState='idle';return}S.estState='load';S.est=null;for(let essai=0;essai<3&&!S.est;essai++){if(essai)await new Promise(r=>setTimeout(r,1200*essai));try{const r=await fetch(EP('estimate'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({levels:+S.niv,emplacement:S.emp,produit:S.produit,wilaya:S.wil})});const j=await r.json();S.est=r.ok&&j.success?{budgetEstime:j.budgetEstime,deliveryFee:j.deliveryFee,visitePrice:j.visitePrice}:null}catch(e){S.est=null}}S.estState='idle';if(ST[step]==='budget'||ST[step]==='confirm')render()}
 async function submit(){
   S.sending=true;S.err='';render();
   const client={nom:S.c.nom.trim(),prenom:S.c.prenom.trim(),ville:villeFull()||null,telephone:S.c.telephone.trim(),email:S.c.email.trim()};
@@ -385,3 +385,10 @@ document.addEventListener('click',e=>{const a=e.target.closest('a[href="#simulat
   const w=document.querySelector('.tk-simw');if(!w)return;e.preventDefault();
   const hd=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hd'))||0;
   setTimeout(()=>window.scrollTo({top:w.getBoundingClientRect().top+scrollY-hd,behavior:'instant'}),a.closest('.msheet')?360:0)},true);
+
+/* Clavier mobile : pas d'aimantation pendant la saisie (sinon iOS saute au bloc suivant) */
+(function(){let t;const champ=e=>e&&e.matches&&e.matches('input:not([type=checkbox]):not([type=radio]),textarea,select');
+document.addEventListener('focusin',e=>{if(!champ(e.target))return;clearTimeout(t);document.documentElement.classList.add('typing')});
+document.addEventListener('focusout',()=>{clearTimeout(t);t=setTimeout(()=>{if(champ(document.activeElement))return;const h=document.documentElement;if(!h.classList.contains('typing'))return;
+const b=[...document.querySelectorAll('.tk-b')].find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight/2&&r.bottom>innerHeight/2});
+h.classList.remove('typing');if(b&&h.classList.contains('tk'))window.scrollTo({top:b.getBoundingClientRect().top+scrollY,behavior:'instant'})},450)});})();

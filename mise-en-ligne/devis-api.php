@@ -86,6 +86,23 @@ if ($route === 'submit-plan') {
     }
 }
 
+// Cache des estimations : le serveur de devis limite le nombre de calculs par adresse IP,
+// et tous les visiteurs passent par ce relais (donc par la même adresse). On garde chaque
+// résultat quelques heures pour ne pas épuiser cette limite.
+$cache = null;
+if ($route === 'estimate') {
+    $d = json_decode($payload, true);
+    $cle = is_array($d) ? json_encode([
+        (int)($d['levels'] ?? 0), (string)($d['emplacement'] ?? ''),
+        (string)($d['produit'] ?? ''), mb_strtolower(trim((string)($d['wilaya'] ?? '')), 'UTF-8'),
+    ]) : $payload;
+    $cache = sys_get_temp_dir() . '/viplift_est_' . md5($cle);
+    if (is_file($cache) && filemtime($cache) > time() - 6 * 3600) {
+        echo file_get_contents($cache);
+        exit;
+    }
+}
+
 $ch = curl_init('https://demande.vip-lift.com/api/' . $route);
 curl_setopt_array($ch, [
     CURLOPT_POST           => true,
@@ -98,6 +115,17 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
+
+if ($cache) {
+    $j = json_decode((string)$response, true);
+    if ($status === 200 && !empty($j['success'])) {
+        @file_put_contents($cache, $response, LOCK_EX);
+    } elseif (is_file($cache)) {
+        // Le serveur de devis refuse ou ne répond pas : on sert le dernier calcul connu.
+        echo file_get_contents($cache);
+        exit;
+    }
+}
 
 if ($response === false || !$status) {
     http_response_code(502);
