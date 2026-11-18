@@ -1,0 +1,4 @@
+# Version de test : invisible pour Google
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>

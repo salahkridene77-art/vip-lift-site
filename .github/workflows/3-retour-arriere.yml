@@ -1,0 +1,24 @@
+name: 3 - Retour en arrière (ancienne page d'accueil)
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Tapez OUI pour revenir à l'ancienne page d'accueil WordPress"
+        required: true
+jobs:
+  retour:
+    if: ${{ github.event.inputs.confirmation == 'OUI' }}
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+    steps:
+      - name: Installer lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Retirer le bloc VIP Lift du .htaccess
+        run: |
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; get www/.htaccess -o htaccess-actuel.txt"
+          sed '/# BEGIN VIP Lift/,/# END VIP Lift/d' htaccess-actuel.txt > htaccess-retour.txt
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; put htaccess-retour.txt -o www/.htaccess"
+          echo "Ancienne page d'accueil WordPress rétablie. Les nouveaux fichiers restent en place."

@@ -1,0 +1,7 @@
+# BEGIN VIP Lift
+# La nouvelle page devient l'accueil ; WordPress continue de servir les autres pages
+DirectoryIndex index.html index.php
+# Les 2 anciens articles renvoient vers les nouveaux
+Redirect 301 /home-lift-electrique-ou-hydraulique-quelles-differences-pour-une-villa/ https://www.vip-lift.com/home-lift-hydraulique-pied-de-gaine.html
+Redirect 301 /installer-un-home-lift-dans-une-maison-deja-construite-contraintes-et-solutions/ https://www.vip-lift.com/adapter-maison-30-ans-home-lift.html
+# END VIP Lift
