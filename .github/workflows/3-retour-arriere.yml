@@ -20,7 +20,7 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
       - name: Retirer le bloc VIP Lift du .htaccess
         run: |
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; get www/.htaccess -o htaccess-actuel.txt"
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; get viplift/.htaccess -o htaccess-actuel.txt"
           sed '/# BEGIN VIP Lift/,/# END VIP Lift/d' htaccess-actuel.txt > htaccess-retour.txt
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; put htaccess-retour.txt -o www/.htaccess"
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; put htaccess-retour.txt -o viplift/.htaccess"
           echo "Ancienne page d'accueil WordPress rétablie. Les nouveaux fichiers restent en place."

@@ -1,4 +1,4 @@
-name: 1 - Version de test (www/nouveau)
+name: 1 - Version de test (vip-lift.com/nouveau)
 on:
   push:
     branches: [main]
@@ -21,7 +21,7 @@ jobs:
           [ -n "$FTP_USER" ] || echo "::error title=Secret manquant::FTP_USER est vide"
           [ -n "$FTP_PASSWORD" ] || echo "::error title=Secret manquant::FTP_PASSWORD est vide"
           set +e
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; set net:max-retries 2; set net:timeout 20; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cls -1 | head -20; mkdir -p -f www/nouveau; mirror -R --verbose --no-perms nouveau www/nouveau" > lftp.log 2>&1
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; set net:max-retries 2; set net:timeout 20; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; rm -r -f www/nouveau; mkdir -p -f viplift/nouveau; mirror -R --verbose --no-perms nouveau viplift/nouveau" > lftp.log 2>&1
           code=$?
           cat lftp.log
           echo "::notice title=Dossiers FTP::$(head -12 lftp.log | tr '\n' ' ')"

@@ -22,7 +22,7 @@ jobs:
       - name: Sauvegarder le .htaccess actuel et la liste des fichiers
         run: |
           mkdir -p sauvegarde
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cd www; cls -1a > ../sauvegarde/liste-www.txt; get -e .htaccess -o sauvegarde/htaccess-avant.txt" || true
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cd viplift; cls -1a > ../sauvegarde/liste-www.txt; get -e .htaccess -o sauvegarde/htaccess-avant.txt" || true
           touch sauvegarde/htaccess-avant.txt
           cat sauvegarde/liste-www.txt || true
       - uses: actions/upload-artifact@v4
@@ -35,7 +35,7 @@ jobs:
           if ! grep -qx ".vip-lift-site" sauvegarde/liste-www.txt; then
             for f in index.html style.css script.js liens.js devis-api.php img/; do
               if grep -qx "$f" sauvegarde/liste-www.txt || grep -qx "${f%/}" sauvegarde/liste-www.txt; then
-                echo "ARRÊT : www/$f existe déjà sur le site. Rien n'a été modifié."; exit 1
+                echo "ARRÊT : viplift/$f existe déjà sur le site. Rien n'a été modifié."; exit 1
               fi
             done
           fi
@@ -50,7 +50,7 @@ jobs:
       - name: Envoyer les fichiers et activer la nouvelle page
         run: |
           echo "fichiers VIP Lift" > marqueur.txt
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mirror -R --verbose --no-perms --exclude-glob A-AJOUTER-EN-HAUT-DU-HTACCESS.txt mise-en-ligne www; put marqueur.txt -o www/.vip-lift-site; put htaccess-nouveau.txt -o www/.htaccess"
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mirror -R --verbose --no-perms --exclude-glob A-AJOUTER-EN-HAUT-DU-HTACCESS.txt mise-en-ligne viplift; put marqueur.txt -o viplift/.vip-lift-site; put htaccess-nouveau.txt -o viplift/.htaccess"
       - name: Écrire la configuration SMTP hors du dossier www
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
