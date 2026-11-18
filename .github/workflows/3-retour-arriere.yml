@@ -1,5 +1,7 @@
 name: 3 - Retour en arrière (ancienne page d'accueil)
 on:
+  push:
+    branches: [retour-arriere]
   workflow_dispatch:
     inputs:
       confirmation:
@@ -7,7 +9,7 @@ on:
         required: true
 jobs:
   retour:
-    if: ${{ github.event.inputs.confirmation == 'OUI' }}
+    if: ${{ github.event_name == 'push' || github.event.inputs.confirmation == 'OUI' }}
     runs-on: ubuntu-latest
     env:
       FTP_SERVER: ${{ secrets.FTP_SERVER }}

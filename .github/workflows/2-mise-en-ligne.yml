@@ -1,5 +1,7 @@
 name: 2 - Mise en ligne (nouvelle page d'accueil)
 on:
+  push:
+    branches: [production]
   workflow_dispatch:
     inputs:
       confirmation:
@@ -7,7 +9,7 @@ on:
         required: true
 jobs:
   bascule:
-    if: ${{ github.event.inputs.confirmation == 'OUI' }}
+    if: ${{ github.event_name == 'push' || github.event.inputs.confirmation == 'OUI' }}
     runs-on: ubuntu-latest
     env:
       FTP_SERVER: ${{ secrets.FTP_SERVER }}
