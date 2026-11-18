@@ -35,7 +35,7 @@ jobs:
           if ! grep -qx ".vip-lift-site" sauvegarde/liste-www.txt; then
             for f in index.html style.css script.js liens.js devis-api.php img/; do
               if grep -qx "$f" sauvegarde/liste-www.txt || grep -qx "${f%/}" sauvegarde/liste-www.txt; then
-                echo "ARRÊT : viplift/$f existe déjà sur le site. Rien n'a été modifié."; exit 1
+                echo "::error title=Arrêt::viplift/$f existe déjà sur le site. Rien n'a été modifié."; exit 1
               fi
             done
           fi
@@ -47,10 +47,15 @@ jobs:
             { cat mise-en-ligne/A-AJOUTER-EN-HAUT-DU-HTACCESS.txt; echo; cat sauvegarde/htaccess-avant.txt; } > htaccess-nouveau.txt
           fi
           head -12 htaccess-nouveau.txt
+          echo "::notice title=Sauvegarde::.htaccess d'origine sauvegardé ($(wc -l < sauvegarde/htaccess-avant.txt) lignes)"
       - name: Envoyer les fichiers et activer la nouvelle page
         run: |
           echo "fichiers VIP Lift" > marqueur.txt
-          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mirror -R --verbose --no-perms --exclude-glob A-AJOUTER-EN-HAUT-DU-HTACCESS.txt mise-en-ligne viplift; put marqueur.txt -o viplift/.vip-lift-site; put htaccess-nouveau.txt -o viplift/.htaccess"
+          set +e
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mirror -R --verbose --no-perms --exclude-glob A-AJOUTER-EN-HAUT-DU-HTACCESS.txt mise-en-ligne viplift; put marqueur.txt -o viplift/.vip-lift-site; put htaccess-nouveau.txt -o viplift/.htaccess" > envoi.log 2>&1
+          code=$?; cat envoi.log
+          if [ $code -ne 0 ]; then echo "::error title=Envoi FTP::$(tail -6 envoi.log | tr '\n' ' ')"; exit 1; fi
+          echo "::notice title=Envoi FTP::$(grep -c 'Transferring file' envoi.log) fichiers envoyés, .htaccess mis à jour"
       - name: Écrire la configuration SMTP hors du dossier www
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
@@ -67,4 +72,8 @@ jobs:
       - name: Vérifier la page d'accueil
         run: |
           sleep 5
-          curl -sL https://www.vip-lift.com/ | grep -q "Votre maison peut prendre de la hauteur" && echo "OK : la nouvelle page est en ligne" || (echo "ATTENTION : la page d'accueil ne montre pas encore la nouvelle version (cache ?)" && exit 1)
+          sleep 10
+          code=$(curl -sL -o accueil.html -w "%{http_code} %{url_effective}" "https://www.vip-lift.com/?v=$(date +%s)")
+          if grep -q "Votre maison peut prendre de la hauteur" accueil.html; then echo "::notice title=Vérification::Nouvelle page d'accueil en ligne (HTTP $code)"; else echo "::error title=Vérification::HTTP $code - $(grep -o '<title>[^<]*' accueil.html | head -1)"; exit 1; fi
+          r1=$(curl -s -o /dev/null -w "%{http_code} %{redirect_url}" https://www.vip-lift.com/home-lift-electrique-ou-hydraulique-quelles-differences-pour-une-villa/)
+          echo "::notice title=Redirection ancien article::$r1"
