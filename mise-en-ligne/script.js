@@ -283,7 +283,7 @@ G.forEach(g=>{const n=document.createElement('div');n.className='czn';n.innerHTM
 
 /* ---------- Défilement plein écran bloc par bloc (façon TikTok) ---------- */
 {const root=document.documentElement,nav=document.querySelector('.nav'),main=document.querySelector('main');
-const NOSPLIT='.wiz,.ba,.deck,.car,.cz,.czn,figure,img,svg,picture,.trust,.seg,.who,.tool,details,.planhd,.rhead,.zone,.navb,.opts,.tabs,.board';
+const NOSPLIT='form,.wiz,.ba,.deck,.car,.cz,.czn,figure,img,svg,picture,.trust,.seg,.who,.tool,details,.planhd,.rhead,.zone,.navb,.opts,.tabs,.board';
 let moves=[],made=[],lastW=0;
 const mv=(n,to)=>{moves.push([n,n.parentNode,n.nextSibling]);to.append(n)};
 const restore=()=>{for(let i=moves.length-1;i>=0;i--){const[n,p,nx]=moves[i];p.insertBefore(n,nx&&nx.parentNode===p?nx:null)}moves=[];made.forEach(e=>e.remove());made=[];
@@ -349,3 +349,27 @@ const show=()=>{B.classList.remove('rail-hide');clearTimeout(t);t=setTimeout(()=
 ['scroll','touchstart','pointerdown','keydown'].forEach(ev=>addEventListener(ev,show,{passive:true,capture:true}));
 r.addEventListener('pointerenter',()=>clearTimeout(t));r.addEventListener('pointerleave',show);
 show();}}
+
+/* ---------- Formulaire de contact (envoi SMTP via contact-api.php) ---------- */
+{const f=document.getElementById('cform');if(f){
+  const ON=/(^|\.)vip-lift\.com$/.test(location.hostname),API='contact-api.php',st=document.getElementById('cf_st'),q=document.getElementById('cf_q'),btn=document.getElementById('cf_send');
+  let tok='',loaded=false;
+  const msg=(t,ok)=>{st.textContent=t;st.className='cf-st '+(ok===true?'ok':ok===false?'ko':'')};
+  const err=(k,t)=>{const e=f.querySelector('[data-e="'+k+'"]');if(e)e.textContent=t||''};
+  const cap=async()=>{if(!ON){q.textContent='Vérification anti-robot (active une fois le site en ligne)';return}
+    try{const r=await fetch(API+'?captcha=1',{cache:'no-store'});const j=await r.json();if(j.q){q.textContent=j.q;tok=j.t;f.cf_cap.value=''}}catch(e){q.textContent='Vérification indisponible, rechargez la page.'}};
+  new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)&&!loaded){loaded=true;cap();o.disconnect()}},{rootMargin:'300px'}).observe(f);
+  f.addEventListener('input',e=>{const n=e.target.name;if(n)err(n==='captcha'?'captcha':n,'')});
+  f.addEventListener('submit',async e=>{e.preventDefault();['nom','email','message','captcha'].forEach(k=>err(k,''));
+    const v={nom:f.nom.value.trim(),email:f.email.value.trim(),telephone:f.telephone.value.trim(),message:f.message.value.trim(),captcha_r:f.captcha.value.trim(),captcha_t:tok,site_web:f.site_web.value};
+    let bad=false;if(v.nom.length<2){err('nom','Indiquez votre nom.');bad=true}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)){err('email','Adresse e-mail invalide.');bad=true}
+    if(v.message.length<10){err('message','Votre message est trop court.');bad=true}if(!/^\d+$/.test(v.captcha_r)){err('captcha','Répondez à la question.');bad=true}if(bad)return;
+    if(!ON){msg("Aperçu : l'envoi fonctionnera une fois la page en ligne sur vip-lift.com.",false);return}
+    btn.disabled=true;msg('Envoi en cours…');
+    try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v)});const j=await r.json().catch(()=>({}));
+      if(r.ok&&j.success){f.reset();msg('Merci, votre message est bien parti. Nous vous répondons rapidement.',true);try{(window.dataLayer=window.dataLayer||[]).push({event:'contact_form'})}catch(_){}}
+      else if(j.errors){Object.entries(j.errors).forEach(([k,t])=>err(k,t));msg('Vérifiez les champs indiqués.',false);if(j.errors.captcha)cap()}
+      else{msg(j.error||"Le message n'a pas pu partir. Appelez-nous ou écrivez-nous sur WhatsApp.",false)}
+    }catch(_){msg("Le message n'a pas pu partir. Appelez-nous ou écrivez-nous sur WhatsApp.",false)}
+    btn.disabled=false;cap()});
+}}

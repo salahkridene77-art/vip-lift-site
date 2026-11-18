@@ -21,7 +21,7 @@
 <link rel="icon" href="img/logo-h.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=18">
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
@@ -220,7 +220,7 @@
 </section>
 
 <section class="panel faq" id="faq" data-floor="FAQ">
-  <div><span class="pill">FAQ</span><h2 style="margin-top:16px">Questions fréquentes sur l'ascenseur de maison</h2><p class="lead">Une autre question ? Notre service commercial vous répond.</p><a class="btn" style="margin-top:22px" href="https://wa.me/213561329993">Poser une question</a></div>
+  <div><span class="pill">FAQ</span><h2 style="margin-top:16px">Questions fréquentes sur l'ascenseur de maison</h2><p class="lead">Une autre question ? Notre service commercial vous répond.</p><a class="btn" style="margin-top:22px" href="#contact">Poser une question</a></div>
   <div>
     <details open><summary>Faut-il creuser une fosse ?</summary><p>Pas de fosse profonde pour un Home Lift : une réservation de 0,10 à 0,15 m dans le sol suffit, contre environ 1,2 m pour un ascenseur standard.</p></details>
     <details><summary>Quelle place faut-il prévoir ?</summary><p>Un Home Lift peut s'installer dans un espace réduit, à partir de 1 × 1 m au sol. Un ascenseur standard demande une gaine d'au moins 1,6 × 1,6 m.</p></details>
@@ -235,6 +235,20 @@
   </div>
 </section>
 
+<section class="panel ctc" id="contact" data-floor="Nous écrire">
+  <div><span class="pill">Contact</span><h2 style="margin-top:16px">Une question ? Écrivez-nous.</h2><p class="lead">Notre équipe vous répond par e-mail, en général dans la journée. Pour un budget, le simulateur reste le plus rapide.</p>
+    <p class="ctc-alt">Ou directement : <a href="tel:+213561329993">+213 561 32 99 93</a> · <a href="https://wa.me/213561329993" target="_blank" rel="noopener">WhatsApp</a></p></div>
+  <form class="cform" id="cform" novalidate>
+    <div class="fld"><label for="cf_nom">Nom et prénom</label><input id="cf_nom" name="nom" autocomplete="name" maxlength="80" required><span class="er" data-e="nom"></span></div>
+    <div class="fld"><label for="cf_email">E-mail</label><input id="cf_email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="120" required><span class="er" data-e="email"></span></div>
+    <div class="fld"><label for="cf_tel">Téléphone <small>(facultatif)</small></label><input id="cf_tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30"></div>
+    <div class="fld"><label for="cf_msg">Votre message</label><textarea id="cf_msg" name="message" rows="4" maxlength="3000" required></textarea><span class="er" data-e="message"></span></div>
+    <div class="fld cf-cap"><label for="cf_cap" id="cf_q">Vérification anti-robot</label><input id="cf_cap" name="captcha" inputmode="numeric" maxlength="3" autocomplete="off" required><span class="er" data-e="captcha"></span></div>
+    <input type="text" name="site_web" id="cf_hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <button type="submit" class="btn" id="cf_send">Envoyer le message</button>
+    <p class="cf-st" id="cf_st" role="status"></p>
+  </form>
+</section>
 <section class="panel" id="blog" data-floor="Conseils">
   <div class="rhead"><div><span class="pill">Conseils</span><h2 style="margin-top:16px">Bien préparer votre projet</h2></div><a class="btn ghost" href="https://vip-lift.com/blog/">Tous les articles</a></div>
   <div class="posts">
@@ -286,11 +300,11 @@
   <div class="msh-bg" data-close></div>
   <nav class="msh" aria-label="Menu du site">
     <div class="msh-hd"><b>Choisissez votre étage</b><button type="button" class="msh-x" data-close aria-label="Fermer le menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-    <div class="msh-l"><a href="#accueil" data-go="accueil"><b>0</b><span>Accueil</span></a><a href="#possible" data-go="possible"><b>1</b><span>C'est possible</span></a><a href="#services" data-go="services"><b>2</b><span>Pourquoi VIP Lift</span></a><a href="#offres" data-go="offres"><b>3</b><span>Nos ascenseurs</span></a><a href="#simulateur" data-go="simulateur"><b>4</b><span>Simulateur et budget</span></a><a href="#renovation" data-go="renovation"><b>5</b><span>Maison existante</span></a><a href="#realisations" data-go="realisations"><b>6</b><span>Réalisations</span></a><a href="#comparatif" data-go="comparatif"><b>7</b><span>Home Lift ou standard</span></a><a href="#garanties" data-go="garanties"><b>8</b><span>Sécurité et SAV</span></a><a href="#finitions" data-go="finitions"><b>9</b><span>Finitions</span></a><a href="#partenaires" data-go="partenaires"><b>10</b><span>Partenaires</span></a><a href="#faq" data-go="faq"><b>11</b><span>Questions fréquentes</span></a><a href="#blog" data-go="blog"><b>12</b><span>Conseils et guides</span></a></div>
+    <div class="msh-l"><a href="#accueil" data-go="accueil"><b>0</b><span>Accueil</span></a><a href="#possible" data-go="possible"><b>1</b><span>C'est possible</span></a><a href="#services" data-go="services"><b>2</b><span>Pourquoi VIP Lift</span></a><a href="#offres" data-go="offres"><b>3</b><span>Nos ascenseurs</span></a><a href="#simulateur" data-go="simulateur"><b>4</b><span>Simulateur et budget</span></a><a href="#renovation" data-go="renovation"><b>5</b><span>Maison existante</span></a><a href="#realisations" data-go="realisations"><b>6</b><span>Réalisations</span></a><a href="#comparatif" data-go="comparatif"><b>7</b><span>Home Lift ou standard</span></a><a href="#garanties" data-go="garanties"><b>8</b><span>Sécurité et SAV</span></a><a href="#finitions" data-go="finitions"><b>9</b><span>Finitions</span></a><a href="#partenaires" data-go="partenaires"><b>10</b><span>Partenaires</span></a><a href="#faq" data-go="faq"><b>11</b><span>Questions fréquentes</span></a><a href="#contact" data-go="contact"><b>12</b><span>Nous écrire</span></a><a href="#blog" data-go="blog"><b>13</b><span>Conseils et guides</span></a></div>
     <a class="btn" href="#simulateur" data-go="simulateur" style="width:100%;margin-top:14px">Configurer mon projet</a>
   </nav>
 </div>
 
-<script src="liens.js?v=7" defer></script><script src="script.js?v=14" defer></script>
+<script src="liens.js?v=7" defer></script><script src="script.js?v=15" defer></script>
 </body>
 </html>

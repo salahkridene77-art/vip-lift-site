@@ -2,7 +2,7 @@ name: 1 - Version de test (www/nouveau)
 on:
   push:
     branches: [main]
-    paths: ['nouveau/**']
+    paths: ['nouveau/**', '.github/workflows/1-version-de-test.yml']
   workflow_dispatch:
 jobs:
   envoi:
@@ -18,6 +18,19 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; set net:max-retries 2; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mkdir -p -f www/nouveau; mirror -R --verbose --no-perms nouveau www/nouveau"
+      - name: Écrire la configuration SMTP hors du dossier www
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          if [ -z "$SMTP_PASSWORD" ]; then echo "Secret SMTP_PASSWORD absent : formulaire de contact pas encore actif"; exit 0; fi
+          export CAPTCHA_SECRET=$(openssl rand -hex 32)
+          php -r 'echo "<?php\nreturn ".var_export(["smtp_host"=>"smtp.mail.ovh.net","smtp_port"=>465,"smtp_secure"=>"ssl","smtp_user"=>"hello@vip-lift.com","smtp_pass"=>getenv("SMTP_PASSWORD"),"from"=>"hello@vip-lift.com","from_name"=>"Site VIP Lift","to"=>"hello@vip-lift.com","secret"=>getenv("CAPTCHA_SECRET")],true).";\n";' > vip-lift-config.php
+          php -l vip-lift-config.php
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; put vip-lift-config.php -o vip-lift-config.php"
+          rm -f vip-lift-config.php
       - name: Vérifier la page
         run: |
           sleep 5

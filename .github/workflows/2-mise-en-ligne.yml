@@ -51,6 +51,19 @@ jobs:
         run: |
           echo "fichiers VIP Lift" > marqueur.txt
           lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; mirror -R --verbose --no-perms --exclude-glob A-AJOUTER-EN-HAUT-DU-HTACCESS.txt mise-en-ligne www; put marqueur.txt -o www/.vip-lift-site; put htaccess-nouveau.txt -o www/.htaccess"
+      - name: Écrire la configuration SMTP hors du dossier www
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          if [ -z "$SMTP_PASSWORD" ]; then echo "Secret SMTP_PASSWORD absent : formulaire de contact pas encore actif"; exit 0; fi
+          export CAPTCHA_SECRET=$(openssl rand -hex 32)
+          php -r 'echo "<?php\nreturn ".var_export(["smtp_host"=>"smtp.mail.ovh.net","smtp_port"=>465,"smtp_secure"=>"ssl","smtp_user"=>"hello@vip-lift.com","smtp_pass"=>getenv("SMTP_PASSWORD"),"from"=>"hello@vip-lift.com","from_name"=>"Site VIP Lift","to"=>"hello@vip-lift.com","secret"=>getenv("CAPTCHA_SECRET")],true).";\n";' > vip-lift-config.php
+          php -l vip-lift-config.php
+          lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; put vip-lift-config.php -o vip-lift-config.php"
+          rm -f vip-lift-config.php
       - name: Vérifier la page d'accueil
         run: |
           sleep 5
