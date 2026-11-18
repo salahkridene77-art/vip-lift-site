@@ -20,3 +20,6 @@ jobs:
           echo "::notice title=.ovhconfig::$(L 'cat .ovhconfig')"
           echo "::notice title=page 404::$(curl -sL https://vip-lift.com/nouveau/ | grep -o '<title>[^<]*' | head -1)"
           echo "::notice title=accueil::$(curl -sIL https://vip-lift.com/ | grep -i -E '^(HTTP|server|x-powered|link)' | tr '\n' ' ')"
+          echo "::notice title=budget (relais devis-api)::$(curl -s -X POST -H 'Origin: https://www.vip-lift.com' -H 'Content-Type: application/json' 'https://www.vip-lift.com/nouveau/devis-api.php?r=estimate' -d '{"levels":3,"emplacement":"INTERIEUR","produit":"HOME_LIFT_AVEC_CHARPENTE","wilaya":"Alger"}' | head -c 300)"
+          echo "::notice title=captcha contact::$(curl -s -H 'Origin: https://www.vip-lift.com' 'https://www.vip-lift.com/nouveau/contact-api.php?captcha=1' | head -c 200)"
+          echo "::notice title=config SMTP::$(lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cls -l vip-lift-config.php" 2>&1 | head -2 | tr '\n' ' ')"
