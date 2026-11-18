@@ -506,3 +506,4 @@ html.tk body::before{content:"";position:fixed;left:0;right:0;top:0;height:10px;
 .cform .btn[disabled]{opacity:.6;pointer-events:none}
 .cf-st{font-size:14.5px;min-height:20px;margin:0}.cf-st.ok{color:#1b7f4b;font-weight:600}.cf-st.ko{color:#d6342c}
 @media(max-width:860px){.ctc{grid-template-columns:1fr}}
+@media(max-width:760px){html.tk .cform{gap:8px}html.tk .cform textarea{min-height:76px}html.tk .cform .fld input{min-height:44px}}
