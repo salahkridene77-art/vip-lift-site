@@ -25,4 +25,3 @@ jobs:
           echo "::notice title=captcha contact::$(curl -s -H 'Origin: https://www.vip-lift.com' 'https://www.vip-lift.com/nouveau/contact-api.php?captcha=1' | head -c 200)"
           echo "::notice title=config SMTP::$(lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; cls -l vip-lift-config.php" 2>&1 | head -2 | tr '\n' ' ')"
           echo "::notice title=Budgets::$(python3 outils/budgets.py | head -c 3000)"
-          echo "::notice title=Relais Batna::$(curl -s -X POST -H 'Origin: https://vip-lift.com' -H 'Content-Type: application/json' 'https://vip-lift.com/devis-api.php?r=estimate' -d '{"levels":3,"emplacement":"INTERIEUR","produit":"HOME_LIFT_HYDRAULIQUE","wilaya":"Batna"}' | head -c 300)"
