@@ -1,0 +1,22 @@
+name: 0 - Diagnostic (lecture seule)
+on:
+  push:
+    branches: [diagnostic]
+  workflow_dispatch:
+jobs:
+  liste:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Lister les dossiers de l'hébergement
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          L() { lftp -c "set ftp:ssl-allow true; set ssl:verify-certificate no; open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\"; $1" 2>&1 | head -40 | tr '\n' ' '; }
+          echo "::notice title=viplift/::$(L 'cls -1a viplift')"
+          echo "::notice title=www/::$(L 'cls -1a www')"
+          echo "::notice title=.ovhconfig::$(L 'cat .ovhconfig')"
+          echo "::notice title=page 404::$(curl -sL https://vip-lift.com/nouveau/ | grep -o '<title>[^<]*' | head -1)"
+          echo "::notice title=accueil::$(curl -sIL https://vip-lift.com/ | grep -i -E '^(HTTP|server|x-powered|link)' | tr '\n' ' ')"
