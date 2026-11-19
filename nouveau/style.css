@@ -538,3 +538,5 @@ html.tk body::before{content:"";position:fixed;left:0;right:0;top:0;height:10px;
 
 html.tk.typing{scroll-snap-type:none!important}
 html.tk.typing .tk-b{scroll-snap-stop:normal}
+.art p a,.art li a,.art td a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.faql{display:block;margin-top:6px;color:var(--blue);font-weight:600}
