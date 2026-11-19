@@ -50,6 +50,18 @@ if (!empty($_SERVER['REMOTE_ADDR'])) {
     $headers[] = 'X-Forwarded-For: ' . $_SERVER['REMOTE_ADDR'];
 }
 
+// Secret partagé avec demande.vip-lift.com : la limite de calculs s'applique alors à chaque
+// visiteur (X-Forwarded-For) et non à l'adresse unique de ce relais. Lu hors du dossier www.
+foreach ([dirname(__DIR__) . '/vip-lift-config.php', dirname(__DIR__, 2) . '/vip-lift-config.php'] as $f) {
+    if (is_file($f)) {
+        $cfg = include $f;
+        if (is_array($cfg) && !empty($cfg['relay_secret'])) {
+            $headers[] = 'X-VipLift-Relay: ' . preg_replace('/[\r\n]/', '', (string)$cfg['relay_secret']);
+        }
+        break;
+    }
+}
+
 if ($route === 'submit-plan') {
     $f = $_FILES['file'] ?? null;
     if (!$f || $f['error'] !== UPLOAD_ERR_OK) {
