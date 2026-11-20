@@ -611,3 +611,13 @@ html.tk .plan ul{padding:6px 8px 12px}
 .art-fig{margin:24px 0 6px}
 .art-fig img{width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:20px;display:block}
 .art-fig figcaption{font-size:13.5px;color:var(--mut);margin-top:8px}
+.art-fig.sch img{max-height:none;object-fit:contain;background:#fff;border:1px solid var(--line);max-width:560px}
+/* Page FAQ complète */
+.faqnav{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 6px}
+.faqnav a{font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:99px;background:var(--soft);color:var(--ink)}
+.faqcat{scroll-margin-top:96px}
+.faqpage .faqcat h2{margin-top:36px}
+.faqpage summary h3{font-size:16px;font-weight:600;margin:0;line-height:1.4}
+.faqpage details p{font-size:15.5px;line-height:1.65;padding-bottom:16px;margin:0}
+.faqpage details{background:#fff}
+.faqnav a{text-decoration:none}
