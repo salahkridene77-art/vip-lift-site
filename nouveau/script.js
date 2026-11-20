@@ -312,9 +312,9 @@ const layout=()=>{if(innerWidth===lastW)return;lastW=innerWidth;restore();
     if(fits()){if(c.display==='block'&&!b.classList.contains('bigph')&&!b.classList.contains('tk-solo')){const w=document.createElement('div');w.className='tk-w';made.push(w);[...b.childNodes].forEach(n=>mv(n,w));b.append(w);b.classList.add('tk-fit')}else b.classList.add('tk-fitg');return}
     /* trop grand : pages horizontales (les cartes deviennent des pages, pas de carrousel dans le carrousel) */
     CZG.forEach(g=>{if(b.contains(g)){g.classList.remove('cz');g.scrollLeft=0}});
-    const isPanel=b.classList.contains('panel'),pad=isPanel?c.padding:'0px',avail=H-(isPanel?pt:0)-28,list=[];
+    const isPanel=b.classList.contains('panel'),pad=isPanel?c.padding:'0px',avail=H-(isPanel?parseFloat(c.paddingTop):0)-64,list=[];
     atoms(b,avail,[],list);
-    const pages=[];let cur=null,acc=0;list.forEach(a=>{if(!cur||acc+a.h>avail&&acc>0){cur=[];pages.push(cur);acc=0}cur.push(a);acc+=a.h});
+    const pages=[];let cur=null,acc=0;list.forEach(a=>{const g=acc>0?14:0;if(!cur||acc+g+a.h>avail&&acc>0){cur=[];pages.push(cur);acc=0}cur.push(a);acc+=(acc>0?14:0)+a.h});
     if(pages.length<2){b.classList.add('tk-fitg');return}
     const wrap=document.createElement('div');wrap.className='tk-pgs';made.push(wrap);
     pages.forEach((pa,i)=>{const pg=document.createElement('div');pg.className='tk-pg';pg.style.padding=pad;const sh=new Map();
