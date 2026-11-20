@@ -20,7 +20,7 @@
 <link rel="icon" href="img/logo-h.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=36">
+<link rel="stylesheet" href="style.css?v=37">
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
@@ -213,7 +213,7 @@
   <div><span class="pill">Partenaires</span><h2 style="margin-top:16px">Promoteurs, architectes, bureaux d'études : devenez partenaire et rejoignez le Club VIP</h2>
     <p class="lead">Un projet se dessine 18 à 24 mois avant la livraison : c'est dès les plans de gros œuvre que l'ascenseur doit être prévu. Nous vous accompagnons dès la conception, avec des remises progressives selon le volume annuel de projets validés.</p>
     <div class="tool"><b>La boîte à outils pro</b><ul><li><span>Fiches de pré-étude</span>Génie civil et électricité : charges au sol, dimensions de trémie, alimentation, hauteurs sous plafond.</li><li><span>Blocs CAO</span>Plans types à intégrer dans AutoCAD ou ArchiCAD.</li><li><span>Schémas d'intégration</span>En cage d'escalier, autoportant ou en façade extérieure.</li></ul></div>
-    <a class="guide-link" href="guide-home-lift-conception-villa.html">Lire le guide technique pour architectes →</a> <a class="guide-link" href="preparation-chantier-home-lift.html">Fosse, électricité, fixations : les schémas →</a>
+    <a class="guide-link" href="guide-home-lift-conception-villa.html">Lire le guide technique pour architectes →</a> <a class="guide-link" href="preparation-chantier-home-lift.html">Fosse, électricité, fixations : les schémas →</a> <button type="button" class="btn ghost probtn" data-pro>Recevoir la lettre pro</button>
     <div class="who"><span>Remises progressives</span><span>Plans 2D et 3D pour vos projets</span><span>Un interlocuteur dédié</span><span>Étude technique prioritaire</span></div>
     <div class="pbtns"><a class="btn or" href="https://vip-lift.com/devenir-partenaire/">Devenir partenaire</a><a class="btn ghost" href="https://wa.me/213541850090?text=Bonjour%20VIP%20Lift%2C%20je%20suis%20architecte%20/%20bureau%20d%27%C3%A9tudes%20/%20promoteur.%20Je%20souhaite%20recevoir%20la%20bo%C3%AEte%20%C3%A0%20outils%20pro%20%28fiches%20de%20pr%C3%A9-%C3%A9tude%20et%20blocs%20CAO%29." target="_blank" rel="noopener">Recevoir la boîte à outils</a></div></div>
 </section>
@@ -277,6 +277,28 @@
     </div>
 </section>
 </main>
+<dialog id="prodlg" class="prodlg" aria-labelledby="prot">
+  <form id="proform" novalidate>
+    <button type="button" class="proclose" data-proclose aria-label="Fermer">×</button>
+    <span class="pill">Architectes · bureaux d'études · promoteurs</span>
+    <h2 id="prot">Recevez la lettre pro VIP Lift</h2>
+    <p class="prolead">Fiches techniques, nouveautés et réalisations, environ une fois par mois. Un commercial dédié vous contacte pour vos projets.</p>
+    <div class="prog">
+      <label>Nom<input name="nom" autocomplete="family-name" required></label>
+      <label>Prénom<input name="prenom" autocomplete="given-name"></label>
+      <label class="w2">Cabinet ou société<input name="societe" autocomplete="organization"></label>
+      <label>Profil<select name="profil" required><option value="">Choisir…</option><option value="ARCHITECTE">Architecte</option><option value="BUREAU_ETUDES">Bureau d'études</option><option value="PROMOTEUR">Promoteur immobilier</option><option value="ENTREPRISE">Entreprise du bâtiment</option><option value="DECORATEUR">Architecte d'intérieur</option><option value="AUTRE">Autre</option></select></label>
+      <label>Ville<input name="ville" autocomplete="address-level2"></label>
+      <label>E-mail<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      <label>Téléphone <small>(facultatif)</small><input name="telephone" type="tel" autocomplete="tel" inputmode="tel"></label>
+      <label class="hpf" aria-hidden="true">Site web<input name="site_web" tabindex="-1" autocomplete="off"></label>
+      <label class="w2 chk"><input type="checkbox" name="consentement"> J'accepte de recevoir la lettre pro et d'être contacté par VIP Lift. Désinscription possible à tout moment.</label>
+    </div>
+    <p class="proerr" role="alert"></p>
+    <button class="btn" type="submit">S'inscrire</button>
+  </form>
+</dialog>
+
 
 <footer class="panel">
   <div class="ft">
@@ -306,6 +328,6 @@
   </nav>
 </div>
 
-<script src="liens.js?v=8" defer></script><script src="script.js?v=24" defer></script><script src="conseils.js?v=1" defer></script>
+<script src="liens.js?v=8" defer></script><script src="script.js?v=25" defer></script><script src="conseils.js?v=1" defer></script>
 </body>
 </html>

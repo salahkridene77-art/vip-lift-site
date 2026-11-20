@@ -401,3 +401,25 @@ rows.forEach(r=>{const c=r.cells[1];if(c&&!c.querySelector('.hl'))c.innerHTML='<
 if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('cmp-anim');
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const r=e.target;setTimeout(()=>r.classList.add('lit'),450+(rows.indexOf(r)%3)*220);io.unobserve(r)}}),{threshold:.6});
 rows.forEach(r=>io.observe(r))}}
+
+/* ---------- Lettre pro : inscription → contact / lead dans le CRM ---------- */
+{const dlg=document.getElementById('prodlg'),f=document.getElementById('proform');
+if(dlg&&f){let t0=0;const er=f.querySelector('.proerr');
+const open=()=>{t0=Date.now();er.textContent='';f.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));dlg.showModal?dlg.showModal():dlg.setAttribute('open','')};
+const close=()=>{dlg.close?dlg.close():dlg.removeAttribute('open');if(location.hash==='#lettre-pro')history.replaceState(null,'',location.pathname+location.search)};
+document.addEventListener('click',e=>{if(e.target.closest('[data-pro]')){e.preventDefault();open()}if(e.target.closest('[data-proclose]'))close()});
+dlg.addEventListener('click',e=>{if(e.target===dlg)close()});
+if(location.hash==='#lettre-pro')setTimeout(open,600);
+f.addEventListener('submit',async e=>{e.preventDefault();const v=n=>(f.elements[n].value||'').trim();
+  const data={nom:v('nom'),prenom:v('prenom'),societe:v('societe'),profil:v('profil'),ville:v('ville'),email:v('email'),telephone:v('telephone'),site_web:v('site_web'),consentement:f.elements.consentement.checked,page:location.pathname,t:Date.now()-t0};
+  const bad=[];if(data.nom.length<2)bad.push('nom');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email))bad.push('email');if(!data.profil)bad.push('profil');if(!data.consentement)bad.push('consentement');
+  f.querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));bad.forEach(n=>f.elements[n].closest('label').classList.add('bad'));
+  if(bad.length){er.textContent='Merci de compléter les champs en rouge.';return}
+  const b=f.querySelector('[type=submit]');b.disabled=true;b.textContent='Envoi…';er.textContent='';
+  try{const r=await fetch('pro-api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const j=await r.json().catch(()=>({}));
+    if(r.ok&&j.success){close();f.reset();try{window.fbq&&window.fbq('track','CompleteRegistration');(window.dataLayer=window.dataLayer||[]).push({event:'inscription_lettre_pro',profil:data.profil})}catch(_){}
+      const h=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');showSuccess('Inscription confirmée','Merci '+h(data.prenom||data.nom)+' ! Vous recevrez la prochaine lettre pro, et un commercial vous contactera pour vos projets.')}
+    else if(j.errors){Object.keys(j.errors).forEach(n=>f.elements[n]&&f.elements[n].closest('label').classList.add('bad'));er.textContent=Object.values(j.errors)[0]}
+    else er.textContent=j.error||'Une erreur est survenue. Merci de réessayer.'}
+  catch(_){er.textContent='Envoi impossible pour le moment. Écrivez-nous sur WhatsApp au +213 541 85 00 90.'}
+  b.disabled=false;b.textContent="S'inscrire"})}}
