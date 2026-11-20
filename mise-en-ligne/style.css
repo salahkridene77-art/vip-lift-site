@@ -608,3 +608,6 @@ html.tk .plan ul{padding:6px 8px 12px}
 @keyframes hlpop{40%{transform:scale(1.03)}}
 #comparatif .hlw{display:block;transform-origin:left center}
 #comparatif .hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.art-fig{margin:24px 0 6px}
+.art-fig img{width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:20px;display:block}
+.art-fig figcaption{font-size:13.5px;color:var(--mut);margin-top:8px}

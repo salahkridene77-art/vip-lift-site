@@ -10,6 +10,7 @@ DirectoryIndex index.html index.php
 # Les 2 anciens articles renvoient vers les nouveaux
 Redirect 301 /home-lift-electrique-ou-hydraulique-quelles-differences-pour-une-villa/ https://vip-lift.com/home-lift-hydraulique-pied-de-gaine.html
 Redirect 301 /installer-un-home-lift-dans-une-maison-deja-construite-contraintes-et-solutions/ https://vip-lift.com/adapter-maison-30-ans-home-lift.html
+Redirect 301 /quel-est-le-prix-dun-ascenseur-maison-en-algerie-guide-complet-2026/ https://vip-lift.com/prix-home-lift-algerie.html
 # Pages du site : le navigateur revérifie à chaque visite (pas d'ancienne version en cache)
 <IfModule mod_headers.c>
 <FilesMatch "\.html$">
