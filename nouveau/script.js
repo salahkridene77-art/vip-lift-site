@@ -392,3 +392,10 @@ document.addEventListener('focusin',e=>{if(!champ(e.target))return;clearTimeout(
 document.addEventListener('focusout',()=>{clearTimeout(t);t=setTimeout(()=>{if(champ(document.activeElement))return;const h=document.documentElement;if(!h.classList.contains('typing'))return;
 const b=[...document.querySelectorAll('.tk-b')].find(x=>{const r=x.getBoundingClientRect();return r.top<innerHeight/2&&r.bottom>innerHeight/2});
 h.classList.remove('typing');if(b&&h.classList.contains('tk'))window.scrollTo({top:b.getBoundingClientRect().top+scrollY,behavior:'instant'})},450)});})();
+
+/* ---------- Comparatif : le Home Lift et sa caractéristique apparaissent en gras ---------- */
+{const rows=[...document.querySelectorAll('#comparatif tbody tr')];
+rows.forEach(r=>{const c=r.cells[1];if(c&&!c.querySelector('.hl'))c.innerHTML='<span class="hlw"><span class="hl">'+c.innerHTML+'</span></span>'});
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('cmp-anim');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const r=e.target;setTimeout(()=>r.classList.add('lit'),450+(rows.indexOf(r)%3)*220);io.unobserve(r)}}),{threshold:.6});
+rows.forEach(r=>io.observe(r))}}

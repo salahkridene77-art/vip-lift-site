@@ -595,3 +595,16 @@ html.tk .plan .hd b{margin-top:8px;font-size:21px}
 html.tk .plan .hd span{margin-top:6px}
 html.tk .plan .ds{padding:12px 8px 4px}
 html.tk .plan ul{padding:6px 8px 12px}
+/* Comparatif : mise en valeur animée du Home Lift */
+.cmp-anim #comparatif tbody td:nth-child(2){font-weight:400;color:var(--mut);transition:color .5s}
+.cmp-anim #comparatif tbody td:nth-child(2)::before{transition:color .5s}
+.cmp-anim #comparatif .hl{background:linear-gradient(#0b63913a,#0b63913a) no-repeat 0 88%/0% 40%;border-radius:4px;transition:background-size .9s cubic-bezier(.2,.7,.2,1) .25s}
+.cmp-anim #comparatif tbody td:nth-child(3){transition:opacity .6s .3s}
+.cmp-anim #comparatif tr.lit td:nth-child(2){font-weight:700;color:var(--ink)}
+.cmp-anim #comparatif tr.lit td:nth-child(2)::before{color:var(--blue);font-weight:700}
+.cmp-anim #comparatif tr.lit .hl{background-size:100% 40%}
+.cmp-anim #comparatif tr.lit td:nth-child(3){opacity:.6}
+.cmp-anim #comparatif tr.lit td:nth-child(2) .hlw{animation:hlpop .5s ease .1s}
+@keyframes hlpop{40%{transform:scale(1.03)}}
+#comparatif .hlw{display:block;transform-origin:left center}
+#comparatif .hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone}
