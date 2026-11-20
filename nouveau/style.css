@@ -540,3 +540,29 @@ html.tk.typing{scroll-snap-type:none!important}
 html.tk.typing .tk-b{scroll-snap-stop:normal}
 .art p a,.art li a,.art td a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .faql{display:block;margin-top:6px;color:var(--blue);font-weight:600}
+/* Pied de page compact : tout tient sur un seul écran en mode mobile */
+html.tk footer.panel{font-size:13px}
+html.tk footer.panel .ft{grid-template-columns:1fr 1fr;gap:14px 16px}
+html.tk footer.panel .ft>div:first-child,html.tk footer.panel .ft>div:last-child{grid-column:1/-1}
+html.tk footer.panel .ft img{height:30px}
+html.tk footer.panel .ft>div:first-child p{margin-top:8px!important;max-width:none!important;font-size:12.5px;line-height:1.45}
+html.tk footer.panel .ft h4{margin:0 0 6px;font-size:13.5px}
+html.tk footer.panel .ft ul{gap:5px;line-height:1.4}
+html.tk footer.panel .ft>div:last-child ul{display:flex;flex-wrap:wrap;gap:6px 16px}
+html.tk footer.panel .legal{margin-top:16px;padding-top:12px;gap:10px 14px;font-size:12px}
+html.tk footer.panel .lg{gap:6px 14px}
+html.tk footer.panel .soc{margin-left:0;gap:4px}
+/* J'aime et réseaux sociaux dans le bloc final */
+.cta .soc{justify-content:center;flex-wrap:wrap;margin:28px auto 0;gap:10px}
+.cta .soc .ic{width:44px;height:44px;color:#fff;background:#ffffff1f;border:1px solid #ffffff33}
+.cta .soc .ic:hover{background:#ffffff33;color:#fff}
+.cta .soc svg{width:20px;height:20px}
+.cta .like{height:44px;padding:0 18px;border:0}
+.legal{justify-content:flex-start}
+.cta .soc{display:grid;grid-template-columns:repeat(4,44px);justify-content:center;gap:12px}
+.cta .soc .like{grid-column:1/-1;justify-self:center}
+html.tk .cta.tk-b{display:flex!important;flex-direction:column;justify-content:flex-start;align-items:center}
+html.tk .cta.tk-b>.pill{margin-top:auto}
+html.tk .cta.tk-b>.soc{margin-top:auto;padding-top:24px}
+html.tk .cta.tk-b{padding-block:clamp(22px,4vh,44px)!important}
+@media(max-height:760px){html.tk .cta h2{font-size:28px;margin-top:12px}html.tk .cta p{font-size:14px;margin-top:10px}html.tk .cta .btns{margin-top:16px;gap:10px}html.tk .cta.tk-b>.soc{padding-top:14px}html.tk .cta .soc{gap:8px;grid-template-columns:repeat(4,40px)}html.tk .cta .soc .ic{width:40px;height:40px}html.tk .cta .like{height:40px}}
