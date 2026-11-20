@@ -328,6 +328,8 @@ const layout=()=>{if(innerWidth===lastW)return;lastW=innerWidth;restore();
     nv.addEventListener('click',e=>{const d=e.target.closest('i[data-k]'),i=Math.round(wrap.scrollLeft/wrap.clientWidth);if(d)go(+d.dataset.k);else if(e.target.closest('.pv'))go(i-1);else if(e.target.closest('.nx'))go(i+1)});
     hint.onclick=()=>go(1);let t;wrap.addEventListener('scroll',()=>{cancelAnimationFrame(t);t=requestAnimationFrame(upd)},{passive:true});upd()})};
 const run=()=>{lastW=0;layout()};
+/* Contenu ajouté après coup (articles NextUp, voir conseils.js) : remettre la page en place, insérer, puis redécouper. */
+window.vlRelayout=fn=>{restore();if(fn)fn();run()};
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(run);addEventListener('load',run);
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(layout,250)});layout();
 }

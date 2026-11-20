@@ -1,0 +1,10 @@
+# Conseils VIP Lift : articles publiés depuis NextUp (espace VIP Lift)
+Options -Indexes
+DirectoryIndex index.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Cache interne jamais servi
+  RewriteRule ^cache(/|$) - [F,L]
+  # /conseils/mon-article/ -> index.php?slug=mon-article
+  RewriteRule ^([a-z0-9]+(?:-[a-z0-9]+)*)/?$ index.php?slug=$1 [L,QSA]
+</IfModule>
