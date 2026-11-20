@@ -289,7 +289,7 @@ G.forEach(g=>{const n=document.createElement('div');n.className='czn';n.innerHTM
 
 /* ---------- Défilement plein écran bloc par bloc (façon TikTok) ---------- */
 {const root=document.documentElement,nav=document.querySelector('.nav'),main=document.querySelector('main');
-const NOSPLIT='form,.wiz,.ba,.deck,.car,.cz,.czn,figure,img,svg,picture,.trust,.seg,.who,.tool,details,.planhd,.rhead,.zone,.navb,.opts,.tabs,.board';
+const NOSPLIT='.impl,form,.wiz,.ba,.deck,.car,.cz,.czn,figure,img,svg,picture,.trust,.seg,.who,.tool,details,.planhd,.rhead,.zone,.navb,.opts,.tabs,.board';
 let moves=[],made=[],lastW=0;
 const mv=(n,to)=>{moves.push([n,n.parentNode,n.nextSibling]);to.append(n)};
 const restore=()=>{for(let i=moves.length-1;i>=0;i--){const[n,p,nx]=moves[i];p.insertBefore(n,nx&&nx.parentNode===p?nx:null)}moves=[];made.forEach(e=>e.remove());made=[];
@@ -302,8 +302,8 @@ const layout=()=>{if(innerWidth===lastW)return;lastW=innerWidth;restore();
   if(innerWidth>1100){root.classList.remove('tk');const lim=innerHeight-90;CZG.forEach(g=>{const p=g.closest('.panel');if(p&&g.children.length>3&&p.getBoundingClientRect().height>lim){g.classList.add('cz');g._dots()}});return}
   const hd=Math.round(nav.getBoundingClientRect().height+18),gap=innerWidth<=600?8:12,H=innerHeight-hd-gap;
   root.style.setProperty('--hd',hd+'px');root.style.setProperty('--H',H+'px');root.classList.add('tk');
-  const vsplit=(sel,cls)=>{const n=document.querySelector(sel);if(!n)return;const host=n.closest('.panel');const nb=document.createElement('section');nb.className='panel tk-made '+cls;made.push(nb);host.after(nb);mv(n,nb)};
-  vsplit('#possible .possba','center tk-ba');vsplit('#simulateur .wiz','tk-simw');
+  const vsplit=(sel,cls)=>{const n=document.querySelector(sel);if(!n)return;const host=n.closest('.panel');const nb=document.createElement('section');nb.className='panel tk-made '+cls;made.push(nb);host.after(nb);const nx=n.nextElementSibling;mv(n,nb);if(nx&&nx.classList.contains('czn'))mv(nx,nb)};
+  vsplit('#possible .possba','center tk-ba');vsplit('#simulateur .wiz','tk-simw');vsplit('#offres .plans','tk-plansw');
   [...main.querySelectorAll(':scope>.duo,:scope>.pair')].forEach(d=>{if(d.getBoundingClientRect().height<=H+1)return;let after=d;[...d.children].slice(1).forEach(k=>{const nb=document.createElement('div');nb.className=d.classList[0]+' tk-made tk-solo';made.push(nb);after.after(nb);after=nb;mv(k,nb)})});
   const blocks=[...main.children,document.querySelector('footer')].filter(b=>b&&!b.classList.contains('marq'));
   blocks.forEach(b=>{b.classList.add('tk-b');if(b.classList.contains('tk-simw')){b.classList.add('tk-fitg');return}

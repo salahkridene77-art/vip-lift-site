@@ -577,3 +577,21 @@ html.tk #renovation .rcard p{font-size:13.5px;line-height:1.45;margin:0 4px 4px;
 html.tk #renovation .center[style]{margin-top:14px!important}
 html.tk #renovation .guide-link{margin-top:10px}
 @media(max-height:720px){html.tk #renovation .lead{display:none}html.tk #renovation .rimg{aspect-ratio:16/9}}
+/* Nos ascenseurs : 4 styles d'implantation en photos */
+.impl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+.impl figure{margin:0;position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3.4}
+.impl img{width:100%;height:100%;object-fit:cover;display:block}
+.impl figcaption{position:absolute;left:8px;bottom:8px;background:#ffffffeb;backdrop-filter:blur(6px);color:var(--ink);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:99px}
+@media(max-width:700px){.impl{grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.impl figure{border-radius:18px;aspect-ratio:5/4}}
+html.tk #offres .planhd h2{font-size:clamp(24px,7vw,30px)}
+html.tk #offres .planhd p{font-size:14px;margin:0}
+@media(max-height:740px){html.tk #offres .planhd p{display:none}}
+/* Carrousel des modèles : cartes toutes de la même taille */
+.tk-plansw.tk-b{display:flex!important;flex-direction:column;justify-content:center}
+.tk-plansw .plans{margin-top:0;align-items:stretch}
+.tk-plansw .plans.cz{grid-auto-columns:86%}
+html.tk .plan .hd{min-height:0;padding:14px 16px}
+html.tk .plan .hd b{margin-top:8px;font-size:21px}
+html.tk .plan .hd span{margin-top:6px}
+html.tk .plan .ds{padding:12px 8px 4px}
+html.tk .plan ul{padding:6px 8px 12px}
