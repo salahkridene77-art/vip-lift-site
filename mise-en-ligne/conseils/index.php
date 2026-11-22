@@ -131,7 +131,9 @@ function vl_render(int $status, string $canonical, string $title, string $desc, 
         . '<link rel="canonical" href="' . vl_h($canonical) . '">' . $robots
         . '<meta name="theme-color" content="#0b6391"><meta property="og:locale" content="fr_DZ"><meta property="og:site_name" content="VIP Lift Technologie">'
         . '<meta property="og:title" content="' . vl_h($title) . '"><meta property="og:description" content="' . vl_h($desc) . '"><meta property="og:url" content="' . vl_h($canonical) . '">'
-        . '<link rel="icon" href="' . $ROOT . 'img/logo-h.png">'
+        . '<link rel="icon" type="image/png" sizes="32x32" href="' . $ROOT . 'img/favicon-32.png">'
+        . '<link rel="icon" type="image/png" sizes="192x192" href="' . $ROOT . 'img/favicon-192.png">'
+        . '<link rel="apple-touch-icon" href="' . $ROOT . 'img/apple-touch-icon.png">'
         . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         . '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">'
         . '<link rel="stylesheet" href="' . $ROOT . 'style.css?v=36">' . $head
