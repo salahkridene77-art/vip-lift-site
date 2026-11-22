@@ -36,9 +36,10 @@ p{margin:0}
 .nav>div{display:flex;align-items:center;gap:16px;background:#ffffffee;backdrop-filter:blur(12px);border-radius:22px;padding:10px 10px 10px 20px;box-shadow:0 10px 30px #0b639122}
 .logo img{height:36px;width:auto}
 .nav nav{display:flex;gap:2px;margin-left:auto;font-size:14px;font-weight:500}
-.nav nav a{text-decoration:none;color:var(--mut);padding:8px 12px;border-radius:99px}.nav nav a:hover{background:var(--soft);color:var(--ink)}
+.nav nav a{white-space:nowrap;text-decoration:none;color:var(--mut);padding:8px 12px;border-radius:99px}.nav nav a:hover{background:var(--soft);color:var(--ink)}
 .tel{font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
 @media(max-width:1100px){.nav nav{display:none}.tel{margin-left:auto}}
+@media(max-width:1300px){.nav nav{font-size:13.5px}.nav nav a{padding:8px 8px}}
 @media(max-width:600px){body{padding:0 8px}.tel{display:none}.nav .btn{margin-left:auto;padding:0 16px;min-height:42px;font-size:14px}.logo img{height:30px}.panel{border-radius:24px;margin:8px auto}}
 /* héro photo */
 .heroimg{padding:0;min-height:clamp(540px,84vh,780px);display:flex;align-items:flex-end;isolation:isolate}
